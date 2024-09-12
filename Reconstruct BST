@@ -1,0 +1,54 @@
+ public class BST {
+        public int value;
+        public BST left = null;
+        public BST right = null;
+
+        public BST(int value) {
+            this.value = value;
+        }
+    }
+
+    public class TreeInfo {
+        public int rootIdx;
+
+        public TreeInfo(int rootIdx) {
+            this.rootIdx = rootIdx;
+        }
+    }
+
+    // O(n) time | O(n) space - where n is the length of the input array
+    public BST ReconstructBst(List<int> preOrderTraversalValues) {
+        TreeInfo treeInfo = new TreeInfo(0);
+        return ReconstructBstFromRange(
+            Int32.MinValue, Int32.MaxValue, preOrderTraversalValues, treeInfo
+        );
+    }
+
+    public BST ReconstructBstFromRange(
+        int lowerBound,
+        int upperBound,
+        List<int> preOrderTraversalValues,
+        TreeInfo currentSubtreeInfo
+    ) {
+        if (currentSubtreeInfo.rootIdx == preOrderTraversalValues.Count) {
+            return null;
+        }
+
+        int rootValue = preOrderTraversalValues[currentSubtreeInfo.rootIdx];
+        if (rootValue < lowerBound || rootValue >= upperBound) {
+            return null;
+        }
+
+        currentSubtreeInfo.rootIdx += 1;
+        BST leftSubtree = ReconstructBstFromRange(
+            lowerBound, rootValue, preOrderTraversalValues, currentSubtreeInfo
+        );
+        BST rightSubtree = ReconstructBstFromRange(
+            rootValue, upperBound, preOrderTraversalValues, currentSubtreeInfo
+        );
+
+        BST bst = new BST(rootValue);
+        bst.left = leftSubtree;
+        bst.right = rightSubtree;
+        return bst;
+    }
