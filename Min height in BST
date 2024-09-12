@@ -1,0 +1,44 @@
+// O(n) time | O(n) space - where n is the length of the array
+    public static BST MinHeightBst(List<int> array) {
+        return ConstructMinHeightBst(array, 0, array.Count - 1);
+    }
+
+    public static BST ConstructMinHeightBst(
+        List<int> array, int startIdx, int endIdx
+    ) {
+        if (endIdx < startIdx) return null;
+        int midIdx = (startIdx + endIdx) / 2;
+        BST bst = new BST(array[midIdx]);
+        bst.left = ConstructMinHeightBst(array, startIdx, midIdx - 1);
+        bst.right = ConstructMinHeightBst(array, midIdx + 1, endIdx);
+        return bst;
+    }
+
+
+public class BST {
+    public int value;
+    public BST left;
+    public BST right;
+
+    public BST(int value) {
+        this.value = value;
+        left = null;
+        right = null;
+    }
+
+    // We don't use this method for this solution.
+    public void Insert(int value) {
+        if (value < this.value) {
+            if (left == null) {
+                left = new BST(value);
+            } else {
+                left.Insert(value);
+            }
+        } else {
+            if (right == null) {
+                right = new BST(value);
+            } else {
+                right.Insert(value);
+            }
+        }
+    }
