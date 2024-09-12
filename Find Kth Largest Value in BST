@@ -1,0 +1,27 @@
+public class Program {
+    // This is an input class. Do not edit.
+    public class BST {
+        public int value;
+        public BST left = null;
+        public BST right = null;
+
+        public BST(int value) {
+            this.value = value;
+        }
+    }
+
+    // O(n) time | O(n) space - where n is the number of nodes in the tree
+    public int FindKthLargestValueInBst(BST tree, int k) {
+        List<int> sortedNodeValues = new List<int>();
+        inOrderTraverse(tree, sortedNodeValues);
+        return sortedNodeValues[sortedNodeValues.Count - k];
+    }
+
+    public void inOrderTraverse(BST node, List<int> sortedNodeValues) {
+        if (node == null) return;
+
+        inOrderTraverse(node.left, sortedNodeValues);
+        sortedNodeValues.Add(node.value);
+        inOrderTraverse(node.right, sortedNodeValues);
+    }
+}
